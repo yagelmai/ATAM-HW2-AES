@@ -20,7 +20,31 @@ sbox:	.byte	99,124,119,123,-14,107,111,-59,48,1,103,43,-2,-41,-85,118
 
 .section	.text
 keyMixing:
-	ret
+    # get the parameters
+    movq %rdi, %rax
+    movq %rsi, %rcx
+
+    # rdx is a counter
+    # r8 is the index
+    # r9 is the value in input
+    # r10 is the value in key
+    movq $16, %rdx
+    movq $0, %r8
+    movq $0, %r9
+    movq $0, %r10
+
+    loop:
+    movsxb (%rax ,%r8, 1), %r9
+    movsxb (%rcx ,%r8, 1), %r10
+    xor %r10, %r9
+    movb %r9b, (%rax ,%r8, 1)
+
+    # movsxb (%rax ,%r8, 1), %r11
+
+    inc %r8
+    cmp %r8, %rdx
+    jne loop
+    ret
 
 
 byteSubstitution:
@@ -28,6 +52,41 @@ byteSubstitution:
 
 
 shiftRows:
+    movq %rdi, %rax
+    movq $0, %r8
+    movq $0, %r9
+    movq $0, %r10
+    movq $0, %r11
+
+    movb 4(%rax), %r8b
+    movb 5(%rax), %r9b
+    movb 6(%rax), %r10b
+    movb 7(%rax), %r11b
+
+    movb  %r9b, 4(%rax)
+    movb  %r10b,5(%rax)
+    movb  %r11b,6(%rax)
+    movb  %r8b, 7(%rax)
+
+    movb 8(%rax), %r8b
+    movb 9(%rax), %r9b
+    movb 10(%rax), %r10b
+    movb 11(%rax), %r11b
+
+    movb  %r10b, 8(%rax)
+    movb  %r11b, 9(%rax)
+    movb  %r8b, 10(%rax)
+    movb  %r9b, 11(%rax)
+
+    movb 12(%rax), %r8b
+    movb 13(%rax), %r9b
+    movb 14(%rax), %r10b
+    movb 15(%rax), %r11b
+
+    movb  %r11b, 12(%rax)
+    movb  %r8b, 13(%rax)
+    movb  %r9b, 14(%rax)
+    movb  %r10b, 15(%rax)
 	ret
 
 
