@@ -1,5 +1,6 @@
 .global	keyMixing, byteSubstitution, shiftRows, cipher
 
+
 .section	.data
 sbox:	.byte	99,124,119,123,-14,107,111,-59,48,1,103,43,-2,-41,-85,118
 		.byte	-54,-126,-55,125,-6,89,71,-16,-83,-44,-94,-81,-100,-92,114,-64
